@@ -40,10 +40,10 @@
 			<a-entity id='camera' camera look-controls="touchEnabled: false;" position="0 0 0">
 				
 				<!--移動オブジェクトの移動先の取得-->
-				<a-entity cursor="rayOrigin: mouse" raycaster="objects: #target;"></a-entity> 
+				<a-entity cursor="rayOrigin: mouse" raycaster="objects: #target";></a-entity> 
 
 				<!--rayの衝突用-->
-				<a-plane cursor-listener id="target" position="0 0 -2" scale="25 15 1" opacity="0"></a-plane> 
+				<a-plane cursor-listener id="target" position="0 0 -2" scale="25 15 1" opacity="0"></a-plane>
 				<!--<a-plane cursor-listener id="target" position="0 0 0" scale="25 1 25" opacity="0.5"></a-plane>-->
 
 			</a-entity>
@@ -56,32 +56,55 @@
 
 		<script>
 
-		var pipe = document.createElement('a-cylinder');
-		pipe.setAttribute('id', '1');
-		pipe.setAttribute('position', '0 0 -3');
-		pipe.setAttribute('radius', '0.04');
-		pipe.setAttribute('height', '0.5');
-		pipe.setAttribute('color', 'red');
+		var scene = document.querySelector('a-scene');
+		var pNumber = 12;
+		var pipes = [];
+		var childs = [];
 
-		document.querySelector('a-scene').appendChild(pipe);
+		for (let i = 0; i < pNumber; i++) {
 
+			let pipe = document.createElement('a-cylinder');
 
-		var p = pipe.getAttribute('position');
-		var child = false;
+			pipe.setAttribute('radius', '0.04');
+			pipe.setAttribute('height', '0.5');
+			pipe.setAttribute('color', 'red');
+			pipe.setAttribute('position', '0 0 0');
+			pipes.push(pipe);
+			let pos = pipes[i].getAttribute('position');
+			pos.x = Math.random() * 25 - 12.5;
+			pos.z = Math.random() * 5 - 7;
+			pipes[i].setAttribute('position', pos);
+			pipes[i].setAttribute('id', i);
+			scene.appendChild(pipes[i]);
+
+			let bool = false;
+			childs.push(bool);
+		}
+
 
 		AFRAME.registerComponent('box-colider', {
 			tick: function () {
 				let pos = this.el.getAttribute('position');
-				if (p.x > pos.x - 0.5 && p.x < pos.x + 0.5 &&
-					p.y > pos.y - 0.5 && p.y < pos.y + 0.5 &&
-					p.z > pos.z - 0.5 && p.z < pos.z + 0.5) {
-					child = true;
-				}
-				if (child) {
-					p.x = pos.x - 0.46;
-					p.y = pos.y + 0.75;
-					p.z = pos.z - 0.5;
-					pipe.setAttribute('position', p);
+				for (let i = 0; i < pNumber; i++) {
+
+					let p = pipes[i].getAttribute('position');
+
+					if (!childs[i]) {
+
+						if (p.x > pos.x - 0.5 && p.x < pos.x + 0.5 &&
+							p.y > pos.y - 0.5 && p.y < pos.y + 0.5 &&
+							p.z > pos.z - 0.5 && p.z < pos.z + 0.5) {
+							childs[i] = true;
+						}
+
+					} else {
+
+						p.x = pos.x - 0.46 + (0.081 * i);
+						p.y = pos.y + 0.75;
+						p.z = pos.z - 0.5;
+						pipes[i].setAttribute('position', p);
+					}
+
 				}
 			}
 		})

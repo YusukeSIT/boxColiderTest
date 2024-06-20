@@ -1,0 +1,46 @@
+#b1 {
+	font-size: 13px;
+	width: 98%;
+	font-weight: bold;
+	line-height: 16px;
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
+	right: 20px;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+#b2 {
+	font-size: 15px;
+	width: 98%;
+	font-weight: bold;
+	position: absolute;
+	left: 20px;
+	bottom: 10%;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.permission_ui {
+	width: 100vw;
+	height: 100vh;
+
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+
+	background-color: #fff;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+}
+
+.center_ui {
+  font-size: 20px;
+}
+
+.deleted_ui {
+	display: none;
+}
